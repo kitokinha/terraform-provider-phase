@@ -222,7 +222,7 @@ func (c *PhaseClient) DeleteSecret(appID, env, secretID, tokenType string) error
 }
 
 func (c *PhaseClient) CreateApplication(app Application, tokenType string) (*Application, error) {
-	url := fmt.Sprintf("%s/v1/apps", c.HostURL)
+	url := fmt.Sprintf("%s/v1/apps/", c.HostURL)
 
 	body, err := json.Marshal(app)
 	if err != nil {
@@ -247,7 +247,7 @@ func (c *PhaseClient) CreateApplication(app Application, tokenType string) (*App
 		return nil, fmt.Errorf("error reading response body: %w", err)
 	}
 
-	if resp.StatusCode != http.StatusOK {
+	if resp.StatusCode != http.StatusCreated {
 		return nil, fmt.Errorf("failed to create app: %s - %s", resp.Status, string(responseBody))
 	}
 
