@@ -655,3 +655,63 @@ func TestResourceApplicationDeleteError(t *testing.T) {
 		)
 	}
 }
+
+func TestResourceApplicationImportState(t *testing.T) {
+	tests := []struct {
+		name       string
+		id         string
+		wantErr    bool
+		expectedID string
+	}{
+		{
+			name:       "valid application ID",
+			id:         "app-123",
+			expectedID: "app-123",
+		},
+		{
+			name:    "empty application ID",
+			id:      "",
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			d := schema.TestResourceDataRaw(
+				t,
+				Application().Schema,
+				nil,
+			)
+			d.SetId(tt.id)
+
+			got, err := resourceApplicationImportState(
+				context.Background(),
+				d,
+				nil,
+			)
+
+			if tt.wantErr {
+				if err == nil {
+					t.Fatal("expected error, got nil")
+				}
+				return
+			}
+
+			if err != nil {
+				t.Fatalf("unexpected error: %v", err)
+			}
+
+			if len(got) != 1 {
+				t.Fatalf("expected 1 resource data, got %d", len(got))
+			}
+
+			if got[0].Id() != tt.expectedID {
+				t.Errorf(
+					"expected ID %q, got %q",
+					tt.expectedID,
+					got[0].Id(),
+				)
+			}
+		})
+	}
+}

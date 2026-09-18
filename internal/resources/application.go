@@ -2,6 +2,7 @@ package resources
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -15,6 +16,9 @@ func Application() *schema.Resource {
 		ReadContext:   resourceApplicationRead,
 		UpdateContext: resourceApplicationUpdate,
 		DeleteContext: resourceApplicationDelete,
+		Importer: &schema.ResourceImporter{
+			StateContext: resourceApplicationImportState,
+		},
 		Schema: map[string]*schema.Schema{
 			"name": {
 				Type:     schema.TypeString,
@@ -126,4 +130,18 @@ func resourceApplicationDelete(ctx context.Context, d *schema.ResourceData, meta
 
 	d.SetId("")
 	return nil
+}
+
+func resourceApplicationImportState(
+	ctx context.Context,
+	d *schema.ResourceData,
+	meta any,
+) ([]*schema.ResourceData, error) {
+	applicationID := d.Id()
+
+	if applicationID == "" {
+		return nil, fmt.Errorf("application ID cannot be empty")
+	}
+
+	return []*schema.ResourceData{d}, nil
 }
