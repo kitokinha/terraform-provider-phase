@@ -28,7 +28,6 @@ func Secrets() *schema.Resource {
 			"path": {
 				Type:        schema.TypeString,
 				Optional:    true,
-				Default:     "/",
 				Description: "The path to fetch secrets from.",
 			},
 			"key": {
@@ -64,20 +63,19 @@ func dataSourceSecretsRead(ctx context.Context, d *schema.ResourceData, meta any
 	path := d.Get("path").(string)
 	key := d.Get("key").(string)
 
-	// Handle tags if present
+	fetchingAll := path == ""
+
 	var tagsFilter string
 	if v, ok := d.GetOk("tags"); ok {
 		tags := make([]string, 0)
-		for _, tag := range v.([]any) {
+		for _, tag := range v.([]interface{}) {
 			tags = append(tags, tag.(string))
 		}
+
 		if len(tags) > 0 {
 			tagsFilter = strings.Join(tags, ",")
 		}
 	}
-
-	// Determine if we're fetching all secrets
-	fetchingAll := path == ""
 
 	secrets, err := secrets.ReadSecret(client, appID, env, key, tagsFilter)
 	if err != nil {
@@ -85,13 +83,18 @@ func dataSourceSecretsRead(ctx context.Context, d *schema.ResourceData, meta any
 	}
 
 	secretMap := make(map[string]string)
+
+	normalizedPath := normalizePath(path)
+
 	for _, secret := range secrets {
-		if fetchingAll || secret.Path == path {
-			if secret.Override != nil && secret.Override.IsActive {
-				secretMap[secret.Key] = secret.Override.Value
-			} else {
-				secretMap[secret.Key] = secret.Value
-			}
+		if !fetchingAll && normalizePath(secret.Path) != normalizedPath {
+			continue
+		}
+
+		if secret.Override != nil && secret.Override.IsActive {
+			secretMap[secret.Key] = secret.Override.Value
+		} else {
+			secretMap[secret.Key] = secret.Value
 		}
 	}
 
@@ -99,13 +102,19 @@ func dataSourceSecretsRead(ctx context.Context, d *schema.ResourceData, meta any
 		return diag.FromErr(err)
 	}
 
-	// Set the path in the state
 	if err := d.Set("path", path); err != nil {
 		return diag.FromErr(err)
 	}
 
-	// Generate a unique ID for the data source
 	d.SetId(fmt.Sprintf("%s-%s-%s-%s-%s", appID, env, path, key, tagsFilter))
 
 	return nil
+}
+
+func normalizePath(path string) string {
+	if path == "" || path == "/" {
+		return "/"
+	}
+
+	return "/" + strings.Trim(path, "/") + "/"
 }

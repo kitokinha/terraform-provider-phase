@@ -152,13 +152,6 @@ func TestSecretsSchema(t *testing.T) {
 		})
 	}
 
-	if got := resource.Schema["path"].Default; got != "/" {
-		t.Errorf(
-			"expected path default '/', got %v",
-			got,
-		)
-	}
-
 	if resource.Schema["tags"].Elem == nil {
 		t.Fatal("expected tags Elem to be configured")
 	}

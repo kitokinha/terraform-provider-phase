@@ -197,9 +197,9 @@ func TestReadApplication(t *testing.T) {
 					t.Errorf("expected method GET, got %s", r.Method)
 				}
 
-				if r.URL.Path != "/v1/apps/app-123" {
+				if r.URL.Path != "/v1/apps/app-123/" {
 					t.Errorf(
-						"expected path /v1/apps/app-123, got %s",
+						"expected path /v1/apps/app-123/, got %s",
 						r.URL.Path,
 					)
 				}
@@ -408,9 +408,9 @@ func TestUpdateApplication(t *testing.T) {
 					t.Errorf("expected method PUT, got %s", r.Method)
 				}
 
-				if r.URL.Path != "/v1/apps/app-123" {
+				if r.URL.Path != "/v1/apps/app-123/" {
 					t.Errorf(
-						"expected path /v1/apps/app-123, got %s",
+						"expected path /v1/apps/app-123/, got %s",
 						r.URL.Path,
 					)
 				}
@@ -520,9 +520,9 @@ func TestDeleteApplication(t *testing.T) {
 					t.Errorf("expected method DELETE, got %s", r.Method)
 				}
 
-				if r.URL.Path != "/v1/apps/app-123" {
+				if r.URL.Path != "/v1/apps/app-123/" {
 					t.Errorf(
-						"expected path /v1/apps/app-123, got %s",
+						"expected path /v1/apps/app-123/, got %s",
 						r.URL.Path,
 					)
 				}

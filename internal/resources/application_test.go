@@ -329,9 +329,9 @@ func TestResourceApplicationRead(t *testing.T) {
 					t.Errorf("expected GET, got %s", r.Method)
 				}
 
-				if r.URL.Path != "/v1/apps/app-123" {
+				if r.URL.Path != "/v1/apps/app-123/" {
 					t.Errorf(
-						"expected /v1/apps/app-123, got %s",
+						"expected /v1/apps/app-123/, got %s",
 						r.URL.Path,
 					)
 				}
@@ -446,9 +446,9 @@ func TestResourceApplicationUpdate(t *testing.T) {
 			t.Errorf("expected PUT, got %s", r.Method)
 		}
 
-		if r.URL.Path != "/v1/apps/app-123" {
+		if r.URL.Path != "/v1/apps/app-123/" {
 			t.Errorf(
-				"expected /v1/apps/app-123, got %s",
+				"expected /v1/apps/app-123/, got %s",
 				r.URL.Path,
 			)
 		}
@@ -576,9 +576,9 @@ func TestResourceApplicationDelete(t *testing.T) {
 			t.Errorf("expected DELETE, got %s", r.Method)
 		}
 
-		if r.URL.Path != "/v1/apps/app-123" {
+		if r.URL.Path != "/v1/apps/app-123/" {
 			t.Errorf(
-				"expected /v1/apps/app-123, got %s",
+				"expected /v1/apps/app-123/, got %s",
 				r.URL.Path,
 			)
 		}

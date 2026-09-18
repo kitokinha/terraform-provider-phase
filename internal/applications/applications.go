@@ -11,7 +11,7 @@ import (
 )
 
 func UpdateApplication(c *client.PhaseClient, appID string, app Application) (*Application, error) {
-	url := fmt.Sprintf("%s/v1/apps/%s", c.HostURL, appID)
+	url := fmt.Sprintf("%s/v1/apps/%s/", c.HostURL, appID)
 
 	body, err := json.Marshal(app)
 	if err != nil {
@@ -46,7 +46,7 @@ func UpdateApplication(c *client.PhaseClient, appID string, app Application) (*A
 }
 
 func DeleteApplication(c *client.PhaseClient, appID string) error {
-	url := fmt.Sprintf("%s/v1/apps/%s", c.HostURL, appID)
+	url := fmt.Sprintf("%s/v1/apps/%s/", c.HostURL, appID)
 
 	req, err := http.NewRequest("DELETE", url, nil)
 	if err != nil {
@@ -101,7 +101,7 @@ func CreateApplication(c *client.PhaseClient, app CreateApplicationRequest) (*Ap
 }
 
 func ReadApplication(c *client.PhaseClient, id string) (*Application, error) {
-	url := fmt.Sprintf("%s/v1/apps/%s", c.HostURL, id)
+	url := fmt.Sprintf("%s/v1/apps/%s/", c.HostURL, id)
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
