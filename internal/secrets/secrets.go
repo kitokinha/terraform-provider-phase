@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/phasehq/terraform-provider/internal/client"
+	"github.com/kitokinha/terraform-provider/internal/client"
 )
 
 // Secret represents a secret in the Phase API

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/phasehq/terraform-provider/internal/config"
+	"github.com/kitokinha/terraform-provider/internal/config"
 )
 
 type PhaseClient struct {

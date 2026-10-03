@@ -93,7 +93,7 @@ go generate
 1. Create a local plugin directory:
 
 ```sh
-mkdir -p ~/.terraform.d/plugins/registry.terraform.io/phasehq/phase/0.2.0/$(go env GOOS)_$(go env GOARCH)
+mkdir -p ~/.terraform.d/plugins/registry.terraform.io/kitokinha/phase/0.2.0/$(go env GOOS)_$(go env GOARCH)
 ```
 
 2. Build the provider:
@@ -105,7 +105,7 @@ go build -o terraform-provider-phase
 3. Move the binary to the plugin directory:
 
 ```sh
-mv terraform-provider-phase ~/.terraform.d/plugins/registry.terraform.io/phasehq/phase/0.2.0/$(go env GOOS)_$(go env GOARCH)
+mv terraform-provider-phase ~/.terraform.d/plugins/registry.terraform.io/kitokinha/phase/0.2.0/$(go env GOOS)_$(go env GOARCH)
 ```
 
 4. Configure Terraform to use the local provider version:
@@ -114,7 +114,7 @@ mv terraform-provider-phase ~/.terraform.d/plugins/registry.terraform.io/phasehq
 terraform {
   required_providers {
     phase = {
-      source  = "registry.terraform.io/phasehq/phase"
+      source  = "registry.terraform.io/kitokinha/phase"
       version = "0.2.0"
     }
   }

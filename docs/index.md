@@ -10,7 +10,7 @@ The following example creates a Phase application, manages a secret within that 
 terraform {
   required_providers {
     phase = {
-      source  = "phasehq/phase"
+      source  = "kitokinha/phase"
       version = "0.2.0"
     }
 

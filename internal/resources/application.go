@@ -6,8 +6,8 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/phasehq/terraform-provider/internal/applications"
-	"github.com/phasehq/terraform-provider/internal/client"
+	"github.com/kitokinha/terraform-provider/internal/applications"
+	"github.com/kitokinha/terraform-provider/internal/client"
 )
 
 func Application() *schema.Resource {

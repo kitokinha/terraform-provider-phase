@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/phasehq/terraform-provider/internal/client"
+	"github.com/kitokinha/terraform-provider/internal/client"
 )
 
 func newTestClient(server *httptest.Server) *client.PhaseClient {

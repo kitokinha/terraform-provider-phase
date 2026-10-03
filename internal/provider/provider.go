@@ -5,10 +5,10 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/phasehq/terraform-provider/internal/client"
-	"github.com/phasehq/terraform-provider/internal/config"
-	"github.com/phasehq/terraform-provider/internal/datasource"
-	"github.com/phasehq/terraform-provider/internal/resources"
+	"github.com/kitokinha/terraform-provider/internal/client"
+	"github.com/kitokinha/terraform-provider/internal/config"
+	"github.com/kitokinha/terraform-provider/internal/datasource"
+	"github.com/kitokinha/terraform-provider/internal/resources"
 )
 
 func Provider() *schema.Provider {

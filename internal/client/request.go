@@ -9,7 +9,7 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/phasehq/terraform-provider/internal/config"
+	"github.com/kitokinha/terraform-provider/internal/config"
 )
 
 // setHeaders sets the common headers for all requests

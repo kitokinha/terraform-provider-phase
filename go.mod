@@ -1,4 +1,4 @@
-module github.com/phasehq/terraform-provider
+module github.com/kitokinha/terraform-provider
 
 go 1.22.5
 

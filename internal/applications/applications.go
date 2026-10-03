@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/phasehq/terraform-provider/internal/client"
+	"github.com/kitokinha/terraform-provider/internal/client"
 )
 
 func UpdateApplication(c *client.PhaseClient, appID string, app Application) (*Application, error) {

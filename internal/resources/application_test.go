@@ -9,7 +9,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/phasehq/terraform-provider/internal/client"
+	"github.com/kitokinha/terraform-provider/internal/client"
 )
 
 func newApplicationTestClient(server *httptest.Server) *client.PhaseClient {

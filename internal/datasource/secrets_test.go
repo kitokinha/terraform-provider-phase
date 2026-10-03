@@ -10,8 +10,8 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/phasehq/terraform-provider/internal/client"
-	"github.com/phasehq/terraform-provider/internal/secrets"
+	"github.com/kitokinha/terraform-provider/internal/client"
+	"github.com/kitokinha/terraform-provider/internal/secrets"
 )
 
 func newTestSecretsDataSourceClient(
