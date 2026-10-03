@@ -11,7 +11,7 @@ terraform {
   required_providers {
     phase = {
       source  = "kitokinha/phase"
-      version = "0.2.0"
+      version = "0.1.0"
     }
   }
 }
@@ -115,7 +115,7 @@ terraform {
   required_providers {
     phase = {
       source  = "registry.terraform.io/kitokinha/phase"
-      version = "0.2.0"
+      version = "0.1.0"
     }
   }
 }
