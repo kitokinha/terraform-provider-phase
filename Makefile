@@ -3,7 +3,7 @@ HOSTNAME=registry.terraform.io
 NAMESPACE=kitokinha
 NAME=phase
 BINARY=terraform-provider-${NAME}
-VERSION=1.3.0
+VERSION=1.4.0
 OS_ARCH=darwin_amd64
 
 default: build

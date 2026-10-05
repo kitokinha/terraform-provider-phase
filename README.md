@@ -9,7 +9,7 @@ terraform {
   required_providers {
     phase = {
       source  = "kitokinha/phase"
-      version = "1.3.0"
+      version = "1.4.0"
     }
   }
 }
@@ -23,11 +23,12 @@ resource "phase_application" "api" {
 resource "phase_service_account" "deploy" {
   name    = "deploy-bot"
   role_id = var.deployer_role_id
+}
 
-  access {
-    app_id          = phase_application.api.id
-    environment_ids = [var.production_environment_id]
-  }
+resource "phase_service_account_access" "deploy" {
+  service_account_id = phase_service_account.deploy.id
+  app_id             = phase_application.api.id
+  environment_ids    = [var.production_environment_id]
 }
 ```
 

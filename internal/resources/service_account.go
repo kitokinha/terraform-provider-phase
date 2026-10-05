@@ -18,17 +18,10 @@ func ServiceAccount() *schema.Resource {
 		DeleteContext: resourceServiceAccountDelete,
 		Importer:      &schema.ResourceImporter{StateContext: serviceAccountImportState},
 		Schema: map[string]*schema.Schema{
-			"name":       {Type: schema.TypeString, Required: true},
-			"role_id":    {Type: schema.TypeString, Required: true},
-			"token_name": {Type: schema.TypeString, Optional: true, ForceNew: true},
-			"team_id":    {Type: schema.TypeString, Optional: true, ForceNew: true},
-			"access": {
-				Type: schema.TypeSet, Optional: true,
-				Elem: &schema.Resource{Schema: map[string]*schema.Schema{
-					"app_id":          {Type: schema.TypeString, Required: true},
-					"environment_ids": {Type: schema.TypeSet, Required: true, MinItems: 1, Elem: &schema.Schema{Type: schema.TypeString}},
-				}},
-			},
+			"name":                 {Type: schema.TypeString, Required: true},
+			"role_id":              {Type: schema.TypeString, Required: true},
+			"token_name":           {Type: schema.TypeString, Optional: true, ForceNew: true},
+			"team_id":              {Type: schema.TypeString, Optional: true, ForceNew: true},
 			"initial_token":        {Type: schema.TypeString, Computed: true, Sensitive: true},
 			"initial_bearer_token": {Type: schema.TypeString, Computed: true, Sensitive: true},
 			"initial_token_id":     {Type: schema.TypeString, Computed: true},
@@ -59,11 +52,6 @@ func resourceServiceAccountCreate(ctx context.Context, d *schema.ResourceData, m
 			return diag.FromErr(err)
 		}
 	}
-	if _, configured := d.GetOk("access"); configured {
-		if _, err := serviceaccounts.SetAccess(c, d.Id(), accessRequest(d)); err != nil {
-			return diag.FromErr(err)
-		}
-	}
 	return resourceServiceAccountRead(ctx, d, meta)
 }
 
@@ -84,9 +72,6 @@ func resourceServiceAccountRead(_ context.Context, d *schema.ResourceData, meta 
 		return diag.FromErr(err)
 	}
 	if err := d.Set("role_id", account.Role.ID); err != nil {
-		return diag.FromErr(err)
-	}
-	if err := d.Set("access", flattenAccess(account.Apps)); err != nil {
 		return diag.FromErr(err)
 	}
 	if err := d.Set("created_at", account.CreatedAt); err != nil {
@@ -114,11 +99,6 @@ func resourceServiceAccountUpdate(ctx context.Context, d *schema.ResourceData, m
 			return diag.FromErr(err)
 		}
 	}
-	if d.HasChange("access") {
-		if _, err := serviceaccounts.SetAccess(c, d.Id(), accessRequest(d)); err != nil {
-			return diag.FromErr(err)
-		}
-	}
 	return resourceServiceAccountRead(ctx, d, meta)
 }
 
@@ -129,34 +109,6 @@ func resourceServiceAccountDelete(_ context.Context, d *schema.ResourceData, met
 	}
 	d.SetId("")
 	return nil
-}
-
-func accessRequest(d *schema.ResourceData) serviceaccounts.AccessRequest {
-	access := serviceaccounts.AccessRequest{Apps: []serviceaccounts.AccessApp{}}
-	for _, value := range d.Get("access").(*schema.Set).List() {
-		block := value.(map[string]any)
-		environments := block["environment_ids"].(*schema.Set).List()
-		ids := make([]string, 0, len(environments))
-		for _, environment := range environments {
-			ids = append(ids, environment.(string))
-		}
-		access.Apps = append(access.Apps, serviceaccounts.AccessApp{ID: block["app_id"].(string), Environments: ids})
-	}
-	return access
-}
-
-func flattenAccess(apps []serviceaccounts.App) []any {
-	access := make([]any, 0, len(apps))
-	for _, app := range apps {
-		environments := make([]string, 0, len(app.Environments))
-		for _, environment := range app.Environments {
-			environments = append(environments, environment.ID)
-		}
-		if len(environments) > 0 {
-			access = append(access, map[string]any{"app_id": app.ID, "environment_ids": environments})
-		}
-	}
-	return access
 }
 
 func serviceAccountImportState(_ context.Context, d *schema.ResourceData, _ any) ([]*schema.ResourceData, error) {
