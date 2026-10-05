@@ -1,144 +1,47 @@
 # Terraform Provider for Phase
 
-This Terraform provider allows you to manage Phase applications and secrets from your Terraform configurations.
+Manage Phase applications, secrets, and service accounts with Terraform.
 
-## Usage
-
-To use the provider in your Terraform configuration, add the following:
+## Quick start
 
 ```hcl
 terraform {
   required_providers {
     phase = {
       source  = "kitokinha/phase"
-      version = "0.1.0"
+      version = "1.0.0"
     }
   }
 }
 
-provider "phase" {
-  phase_token = "pss_service:v1:..." # or "pss_user:v1:..."
+provider "phase" {}
+
+resource "phase_application" "api" {
+  name = "api"
 }
 
-resource "phase_application" "example" {
-  name        = "my-application"
-  description = "Application managed by Terraform"
-}
+resource "phase_service_account" "deploy" {
+  name    = "deploy-bot"
+  role_id = var.deployer_role_id
 
-resource "phase_secret" "database_password" {
-  app_id = phase_application.example.id
-  env    = "production"
-  key    = "DATABASE_PASSWORD"
-  value  = "my-secret-password"
-  path   = "/database/"
-  tags   = ["database", "credentials"]
-  comment = "Managed by Terraform"
-}
-
-data "phase_secrets" "database" {
-  app_id = phase_application.example.id
-  env    = "production"
-  path   = "/database/"
-}
-
-output "database_password" {
-  value     = data.phase_secrets.database.secrets["DATABASE_PASSWORD"]
-  sensitive = true
+  access {
+    app_id          = phase_application.api.id
+    environment_ids = [var.production_environment_id]
+  }
 }
 ```
 
-See the [Phase Provider documentation](docs/index.md) for all available resources, data sources, and configuration options.
+Supply authentication through `PHASE_TOKEN` (recommended) or the provider's `phase_token` argument. Both personal access tokens and service tokens are supported.
 
-## Requirements
+See the full [provider documentation](docs/index.md) for configuration, all resources, data sources, imports, and service-account token handling.
 
-* [Terraform](https://www.terraform.io/downloads.html) >= 0.13.x
-* [Go](https://go.dev/doc/install) >= 1.18
-
-## Building the Provider
-
-1. Clone the repository.
-2. Enter the repository directory.
-3. Build the provider:
-
-```sh
-go build -o terraform-provider-phase
-```
-
-## Developing the Provider
-
-If you wish to work on the provider, make sure [Go](https://go.dev/doc/install) is installed on your machine.
-
-To install the provider binary locally:
-
-```sh
-go install
-```
-
-To run the test suite:
+## Development
 
 ```sh
 go test -count=1 ./...
-```
-
-The `-count=1` flag forces Go to run the tests without using the test cache.
-
-To generate or update the provider documentation:
-
-```sh
-go generate
-```
-
-### Local Provider Installation
-
-1. Create a local plugin directory:
-
-```sh
-mkdir -p ~/.terraform.d/plugins/registry.terraform.io/kitokinha/phase/0.2.0/$(go env GOOS)_$(go env GOARCH)
-```
-
-2. Build the provider:
-
-```sh
-go build -o terraform-provider-phase
-```
-
-3. Move the binary to the plugin directory:
-
-```sh
-mv terraform-provider-phase ~/.terraform.d/plugins/registry.terraform.io/kitokinha/phase/0.2.0/$(go env GOOS)_$(go env GOARCH)
-```
-
-4. Configure Terraform to use the local provider version:
-
-```hcl
-terraform {
-  required_providers {
-    phase = {
-      source  = "registry.terraform.io/kitokinha/phase"
-      version = "0.1.0"
-    }
-  }
-}
-```
-
-5. Initialize Terraform:
-
-```sh
-terraform init
-```
-
-6. Review the execution plan:
-
-```sh
-terraform plan
-```
-
-7. Apply the configuration:
-
-```sh
-terraform apply
+go build ./...
 ```
 
 ## License
 
-This provider is distributed under the [MIT License](LICENSE).
+Distributed under the [MIT License](LICENSE).

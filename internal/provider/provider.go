@@ -35,11 +35,13 @@ func Provider() *schema.Provider {
 			},
 		},
 		ResourcesMap: map[string]*schema.Resource{
-			"phase_secret":      resources.Secret(),
-			"phase_application": resources.Application(),
+			"phase_secret":          resources.Secret(),
+			"phase_application":     resources.Application(),
+			"phase_service_account": resources.ServiceAccount(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
-			"phase_secrets": datasource.Secrets(),
+			"phase_secrets":          datasource.Secrets(),
+			"phase_service_accounts": datasource.ServiceAccounts(),
 		},
 		ConfigureContextFunc: providerConfigure,
 	}
