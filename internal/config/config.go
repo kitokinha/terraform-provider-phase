@@ -2,7 +2,7 @@ package config
 
 const (
 	// Version of the provider
-	Version = "1.2.0"
+	Version = "1.2.1"
 
 	// UserAgent is the user agent for the provider
 	UserAgent = "terraform-provider-phase/" + Version

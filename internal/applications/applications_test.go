@@ -25,7 +25,7 @@ func testApplication() Application {
 		ID:          "app-123",
 		Name:        "test-application",
 		Description: "test description",
-		SseEnable:   true,
+		SseEnabled:  true,
 	}
 }
 
@@ -257,8 +257,8 @@ func TestReadApplication(t *testing.T) {
 				)
 			}
 
-			if !got.SseEnable {
-				t.Error("expected SseEnable to be true")
+			if !got.SseEnabled {
+				t.Error("expected SseEnabled to be true")
 			}
 		})
 	}
@@ -438,8 +438,8 @@ func TestUpdateApplication(t *testing.T) {
 					)
 				}
 
-				if !body.SseEnable {
-					t.Error("expected SseEnable to be true")
+				if !body.SseEnabled {
+					t.Error("expected SseEnabled to be true")
 				}
 
 				w.WriteHeader(tt.statusCode)
