@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set the version
-VERSION="1.1.0"
+VERSION="1.2.0"
 
 # Build the provider with the expected naming convention
 go build -o terraform-provider-phase_v${VERSION}

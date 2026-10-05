@@ -9,7 +9,7 @@ terraform {
   required_providers {
     phase = {
       source  = "kitokinha/phase"
-      version = "1.1.0"
+      version = "1.2.0"
     }
   }
 }
