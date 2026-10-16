@@ -41,6 +41,7 @@ func Provider() *schema.Provider {
 			"phase_service_account_access": resources.ServiceAccountAccess(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
+			"phase_applications":     datasource.Applications(),
 			"phase_environments":     datasource.Environments(),
 			"phase_roles":            datasource.Roles(),
 			"phase_secrets":          datasource.Secrets(),

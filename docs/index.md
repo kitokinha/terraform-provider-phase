@@ -9,7 +9,7 @@ terraform {
   required_providers {
     phase = {
       source  = "kitokinha/phase"
-      version = "1.4.0"
+      version = "1.5.0"
     }
   }
 }
@@ -58,6 +58,7 @@ See the resource and data-source pages for configuration examples and reference 
 
 ## Data Sources
 
+- [phase_applications](data-sources/applications.md)
 - [phase_environments](data-sources/environments.md)
 - [phase_roles](data-sources/roles.md)
 - [`phase_secrets`](data-sources/secrets.md)
